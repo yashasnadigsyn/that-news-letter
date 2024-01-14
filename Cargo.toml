@@ -15,6 +15,7 @@ name = "that-news-letter"
 [dependencies]
 actix-web = "4.4.1"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+serde = { version = "1", features = ["derive"]}
 
 [dev-dependencies]
 reqwest = "0.11"
