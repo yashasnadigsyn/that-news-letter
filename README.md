@@ -5,7 +5,7 @@ I have included loggers and database(postgres) into it.
 
 - [x] Create a basic actix-web server
 - [x] Use sqlx to add postgres to it
-- [ ] Add loggers to it
+- [x] Add loggers to it
 - [ ] Deploy it
 - [ ] Use SMTP to send email
 - [ ] Make it production ready by logging errors based on priority
