@@ -7,8 +7,9 @@ use actix_web::dev::Server;
 use std::net::TcpListener;
 use routes::health_check;
 use routes::subscribe;
+use sqlx::PgPool;
 
-pub fn run(listener: TcpListener) -> Result<Server, std::io::Error> {
+pub fn run(listener: TcpListener, ) -> Result<Server, std::io::Error> {
     println!("{:#?}", &listener);
     let server = HttpServer::new(|| {
         App::new()
