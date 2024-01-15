@@ -5,7 +5,7 @@ use sqlx::{PgPool};
 use the_news_letter::telemetry::{get_subscriber, init_subscriber};
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
-    let subscriber = get_subscriber("the-news-letter".into(), "info".into());
+    let subscriber = get_subscriber("the-news-letter".into(), "info".into(), std::io::stdout);
     init_subscriber(subscriber);
     let configuration = get_configuration().expect("Cannot get configuration!");
     let connection_pool = PgPool::connect(&configuration.database.connection_string())
