@@ -5,9 +5,10 @@ use the_news_letter::startup::run;
 use uuid::Uuid;
 use the_news_letter::telemetry::{get_subscriber, init_subscriber};
 use once_cell::sync::Lazy;
+use secrecy::ExposeSecret;
 
 static TRACING: Lazy<()> = Lazy::new(|| {
-    let subscriber = get_subscriber("test".into(), "debug".into());
+    let subscriber = get_subscriber("test".into(), "debug".into(), std::io::sink);
     init_subscriber(subscriber);
 });
 
@@ -38,13 +39,13 @@ async fn spawn_app() -> TestApp {
 }
 
 pub async fn configure_database(configuration_db: &DatabaseSettings) -> PgPool {
-    let mut connection = PgConnection::connect(&configuration_db.connection_string_without_db())
+    let mut connection = PgConnection::connect(&configuration_db.connection_string_without_db().expose_secret())
         .await
         .expect("Failed to connect postgres");
     connection.execute(format!(r#"CREATE DATABASE "{}";"#, configuration_db.database_name).as_str())
         .await
         .expect("FAILED TO CREATE DATABASE NAME!");
-    let connection_pool = PgPool::connect(&configuration_db.connection_string())
+    let connection_pool = PgPool::connect(&configuration_db.connection_string().expose_secret())
         .await
         .expect("FAILED TO CONNECT PGPOOL!");
     sqlx::migrate!("./migrations")
